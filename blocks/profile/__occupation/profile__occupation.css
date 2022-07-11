@@ -1,0 +1,5 @@
+.profile__occupation {
+    font: normal 18px/1.2 "Inter", Arial, sans-serif;
+    font-size: clamp(14px, 3vw, 18px);
+    margin: 0;
+}

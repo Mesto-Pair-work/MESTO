@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="pages/index.css" />
+    <title>Mesto</title>
+  </head>
+  <body>
+    <div class="page">
+
+      <main class="main"> 
+
+        <header class="header">   
+          <img src="images/logo_white.svg" class="header__logo" alt="Лого">   
+        </header>
+
+        <section class="profile">
+          <img class="profile__photo" src="images/avatar.jpg" alt="Фото профиля">
+          <div class="profile__about-me">
+            <p class="profile__full-name">Жак-Ив Кусто</p>
+            <p class="profile__occupation">Исследователь океана</p>
+          </div>
+          <div class="profile__button-plus"></div>
+        </section>
+
+        <div class="popup">
+          <div class="popup__container">
+            <p class="popup__title">Редактировать профиль</p>
+            <form class="popup__profile-form" action="#">
+              <input class="popup__inp" type="text" name="fullname">
+              <input class="popup__inp" type="text" name="occupation">
+              <button class="popup__save-btn">Сохранить</button>
+            </form>
+            <button class="popup__close-btn"></button>
+          </div>
+        </div>
+
+        <section class="places">
+          <ul class="places__items">
+            <li class="places__item">
+              <img class="places__photo" src="images/karachaevsk.jpg" alt="Фото - Карачаевск">
+              <div class="places__box">
+                <p class="places__name">Карачаевск</p>
+                <span class="places__like places__like_active"></span>
+              </div>
+            </li>
+
+            <li class="places__item">
+              <img class="places__photo" src="images/elbrus.jpg" alt="Фото - Эльбрус">
+              <div class="places__box">
+                <p class="places__name">Гора Эльбрус</p>
+                <span class="places__like"></span>
+              </div>
+            </li>
+
+            <li class="places__item">
+              <img class="places__photo" src="images/dombay.jpg" alt="Фото - Домбай">
+              <div class="places__box">
+                <p class="places__name">Домбай</p>
+                <span class="places__like"></span>
+              </div>
+            </li>
+
+            <li class="places__item">
+              <img class="places__photo" src="images/elbrus.jpg" alt="Фото - Эльбрус">
+              <div class="places__box">
+                <p class="places__name">Гора Эльбрус</p>
+                <span class="places__like"></span>
+              </div>
+            </li>
+
+            <li class="places__item">
+              <img class="places__photo" src="images/dombay.jpg" alt="Фото - Домбай">
+              <div class="places__box">
+                <p class="places__name">Домбай</p>
+                <span class="places__like"></span>
+              </div>
+            </li>
+
+            <li class="places__item">
+              <img class="places__photo" src="images/karachaevsk.jpg" alt="Фото - Карачаевск">
+              <div class="places__box">
+                <p class="places__name">Карачаево-Черкесия</p>
+                <span class="places__like"></span>
+              </div>
+            </li>
+
+          </ul>
+        </section>
+        
+        <footer class="footer"> 
+          <p class="footer__copyright">© 2020 Mesto Russia</p>        
+        </footer>
+
+      </main>
+	  
+    </div>
+  </body>
+</html>

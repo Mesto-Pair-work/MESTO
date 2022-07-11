@@ -1,0 +1,35 @@
+.profile__full-name {
+    font: 500 42px/1.14 "Inter", Arial, sans-serif;
+    font-size: clamp(27px, 5vw, 42px);
+    margin: 0;
+    margin-bottom: clamp(14px, 2vw, 16px);
+}
+
+.profile__full-name::after {
+    content: "";
+    margin-left: 18px;
+    display: inline-block;
+    border: 1px solid white;
+    width: 24px;
+    height: 24px;
+    background: url(../../../images/pen.svg) center no-repeat;
+    cursor: pointer;
+}
+
+.profile__full-name:hover::after {
+    opacity: 0.6;
+}
+
+@media screen and (max-width: 550px) {
+
+    .profile__full-name {
+        margin-right: -30px;
+
+    }
+
+    .profile__full-name::after {
+        margin-left: 10px;
+        width: 18px;
+        height: 18px;
+    }
+}
