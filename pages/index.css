@@ -1,5 +1,5 @@
 @import url("../vendor/normalize.css");
-@import url("../styles/font.css");
+@import url("../vendor/font.css");
 
 @import url("../blocks/page/page.css");
 @import url("../blocks/main/main.css");
@@ -13,15 +13,18 @@
 @import url("../blocks/profile/__occupation/profile__occupation.css");
 @import url("../blocks/profile/__photo/profile__photo.css");
 @import url("../blocks/profile/profile.css");
+@import url("../blocks/profile/__edit-btn/profile__edit-btn.css");
 
 @import url("../blocks/places/places.css");
-@import url("../blocks/places/__box/places__box.css");
-@import url("../blocks/places/__item/places__item.css");
 @import url("../blocks/places/__items/places__items.css");
-@import url("../blocks/places/__like/places__like.css");
-@import url("../blocks/places/__name/places__name.css");
-@import url("../blocks/places/__photo/places__photo.css");
-@import url("../blocks/places/like_active/places__like_active.css");
+
+@import url("../blocks/places-box/places-box.css");
+@import url("../blocks/places-box/places-box.css");
+@import url("../blocks/places-box/__emotion/places-box__emotion.css");
+@import url("../blocks/places-box/__like/_active/places-box__like_active.css");
+@import url("../blocks/places-box/__like/places-box__like.css");
+@import url("../blocks/places-box/__name/places-box__name.css");
+@import url("../blocks/places-box/__photo/places-box__photo.css");
 
 @import url("../blocks/popup/popup.css");
 @import url("../blocks/popup/__close-btn/popup__close-btn.css");

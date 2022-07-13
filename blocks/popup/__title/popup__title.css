@@ -6,7 +6,8 @@
 
 @media screen and (max-width: 550px) {
     .popup__title {
-        font: 900 18px/21.78px "Inter", Arial, sans-serif;
+        font-size: 18px;
+        line-height: 21.78px;
         margin: 0 0 63px 0;
     }
 }

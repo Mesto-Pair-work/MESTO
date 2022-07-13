@@ -2,11 +2,13 @@
     display: flex;
     flex-wrap: wrap;
     padding-top: 40px;
+    justify-content: center;
 }
 
 @media screen and (max-width: 550px) {
     .profile {
         flex-direction: column;
         align-content: center;
+        padding-top: 38.25px;
     }
 }

@@ -1,20 +1,31 @@
 .profile__button-plus {
     border: 2px solid white;
     border-radius: 2px;
-    width: clamp(100px, 18vw, 150px);
+    width: 150px;
     height: 50px;
     background: url(../../../images/plus.svg) center no-repeat;
+    background-size: 22px 22px;
     align-self: center;
     cursor: pointer;
+    margin-left: auto;
 }
 
 .profile__button-plus:hover {
     opacity: 0.6;
 }
 
+@media screen and (max-width: 768px) {
+
+    .profile__button-plus {
+        width: 100%;
+        margin-top: 36px;
+    }
+}
+
 @media screen and (max-width: 550px) {
 
     .profile__button-plus {
         width: 100%;
+        background-size: 16px 16px;
     }
 }

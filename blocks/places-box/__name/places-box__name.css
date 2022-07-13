@@ -1,0 +1,9 @@
+.places-box__name {
+    margin: 0;
+    color: black;
+    font: 900 24px/29.05px "Inter", Arial, sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    flex: 1;
+}

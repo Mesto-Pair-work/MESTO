@@ -1,9 +1,11 @@
 .profile__photo {
     align-self: flex-start;
     width: 120px;
+    height: 120px;
     border-radius: 50%;
     margin-right: 30px;
 }
+
 
 @media screen and (max-width: 550px) {
 

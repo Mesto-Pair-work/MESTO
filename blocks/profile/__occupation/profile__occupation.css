@@ -1,5 +1,15 @@
 .profile__occupation {
     font: normal 18px/1.2 "Inter", Arial, sans-serif;
-    font-size: clamp(14px, 3vw, 18px);
     margin: 0;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 550px) {
+
+    .profile__occupation {
+        font: normal 14px/1.2 "Inter", Arial, sans-serif;
+    }
 }
