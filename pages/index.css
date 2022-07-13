@@ -21,8 +21,8 @@
 @import url("../blocks/places-box/places-box.css");
 @import url("../blocks/places-box/places-box.css");
 @import url("../blocks/places-box/__emotion/places-box__emotion.css");
-@import url("../blocks/places-box/__like/_active/places-box__like_active.css");
 @import url("../blocks/places-box/__like/places-box__like.css");
+@import url("../blocks/places-box/__like/_active/places-box__like_active.css");
 @import url("../blocks/places-box/__name/places-box__name.css");
 @import url("../blocks/places-box/__photo/places-box__photo.css");
 

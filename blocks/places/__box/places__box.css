@@ -1,9 +1,0 @@
-.places__box {
-    display: flex;
-    background-color: white;
-    border-radius: 0 0 10px 10px;
-    height: 80px;
-    align-items: center;
-    padding: 0 20px;
-
-}
