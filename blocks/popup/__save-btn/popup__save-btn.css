@@ -6,10 +6,7 @@
     font: 400 18px/21.78px "Inter", Arial, sans-serif;
     border: none;
     cursor: pointer;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    border-radius: 2px;
 }
 
 .popup__save-btn:hover {

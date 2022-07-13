@@ -6,10 +6,9 @@
     background: url(../../../images/pen.svg) center no-repeat;
     background-size: 10px 10px;
     cursor: pointer;
-
-    position: absolute;
-    top:  15px;
-    right: 0;
+    grid-column: 2/3;
+    grid-row: 1;
+    margin: 15px 0 0 19px;
 }
 
 .profile__edit-btn:hover {
@@ -23,8 +22,6 @@
         width: 18px;
         height: 18px;
         background-size: 7.5px 7.5px;
-
-        top:  7px;
-        right: 0;
+        margin: 7px 0 0 10px;
     }
 }

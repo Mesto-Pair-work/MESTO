@@ -2,9 +2,12 @@
     font: normal 18px/21.78px "Inter", Arial, sans-serif;
     color: #545454;
     margin: 0;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
     max-width: 100%;
+}
+
+@media screen and (max-width: 550px) {
+    .footer__copyright { 
+        font-size: 14px;
+        line-height: 17px;
+    }
 }

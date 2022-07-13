@@ -1,7 +1,7 @@
 .profile__full-name {
     font: 500 42px/1.14 "Inter", Arial, sans-serif;
-    margin: 0 0 16px 0;
-    padding-right: 42px;
+    margin: 0 0 8px 0;
+    grid-column: 1/2;
 
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -11,9 +11,8 @@
 
 @media screen and (max-width: 550px) {
     .profile__full-name {
-        font: 500 27px/1.14 "Inter", Arial, sans-serif;
-        padding-right: 28px;
-        margin-bottom: 14px;
+        font-size: 27px;
+        margin-bottom: 10px;
+        padding-left: 27px;
     }    
-
 }

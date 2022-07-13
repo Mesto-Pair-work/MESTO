@@ -18,14 +18,13 @@
 
     .profile__button-plus {
         width: 100%;
-        margin-top: 36px;
+        margin-top: 32px;
     }
 }
 
 @media screen and (max-width: 550px) {
 
     .profile__button-plus {
-        width: 100%;
         background-size: 16px 16px;
     }
 }
