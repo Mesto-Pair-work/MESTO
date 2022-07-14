@@ -1,11 +1,12 @@
 .main {
     box-sizing: border-box;
     flex: 1;
-    padding: 0 19px 67px;
+    padding: 40px 19px 67px;
 }
 
 @media screen and (max-width: 550px) {
     .main {
         padding-bottom: 48px;
+        padding-top: 42px;
     }
 }

@@ -8,94 +8,166 @@
   </head>
   <body class="body">
     <div class="page">
-
-      <header class="header">   
-        <img src="images/logo_white.svg" class="header__logo" alt="Лого">   
+      
+      <header class="header">
+        <div class="header__logo">
+          <img src="images/logo_white.svg" class="header__logo-img" alt="Лого" />
+        </div>
       </header>
 
-      <main class="main"> 
-
+      <main class="main">
         <section class="profile">
-          <img class="profile__photo" src="images/avatar.jpg" alt="Фото профиля">
+          <img
+            class="profile__photo"
+            src="images/avatar.jpg"
+            alt="Фото профиля"
+          />
           <div class="profile__about-me">
             <h1 class="profile__full-name">Жак-Ив Кусто</h1>
             <p class="profile__occupation">Исследователь океана</p>
-            <button type="button" aria-label="Редактировать профиль" class="profile__edit-btn"></button>
+            <button
+              type="button"
+              aria-label="Редактировать профиль"
+              class="profile__edit-btn"
+            ></button>
           </div>
-          <button type="button" aria-label="Добавить" class="profile__button-plus"></button>
+          <button
+            type="button"
+            aria-label="Добавить"
+            class="profile__button-plus"
+          ></button>
         </section>
 
         <div class="popup">
           <div class="popup__container">
             <h2 class="popup__title">Редактировать профиль</h2>
             <form name="profile-form" class="popup__profile-form" action="#">
-              <input placeholder="Введите ваше полное имя" class="popup__inp" type="text" name="fullname">
-              <input placeholder="Введите ваш род занятий" class="popup__inp" type="text" name="occupation">
+              <input
+                placeholder="Введите ваше полное имя"
+                class="popup__inp"
+                type="text"
+                name="fullname"
+              />
+              <input
+                placeholder="Введите ваш род занятий"
+                class="popup__inp"
+                type="text"
+                name="occupation"
+              />
               <button type="submit" class="popup__save-btn">Сохранить</button>
             </form>
-            <button aria-label="Close" type="button" class="popup__close-btn"></button>
+            <button
+              aria-label="Close"
+              type="button"
+              class="popup__close-btn"
+            ></button>
           </div>
         </div>
 
         <section class="places">
           <ul class="places__items">
-            
             <li class="places-box">
-              <img class="places-box__photo" src="images/karachaevsk.jpg" alt="Фото - Карачаевск">
+              <img
+                class="places-box__photo"
+                src="images/karachaevsk.jpg"
+                alt="Фото - Карачаевск"
+              />
               <div class="places-box__emotion">
                 <h2 class="places-box__name">Карачаевск</h2>
-                <button type="button" aria-label="Like" class="places-box__like places-box__like_active"></span>
+                <button
+                  type="button"
+                  aria-label="Like"
+                  class="places-box__like places-box__like_active"
+                ></button>
               </div>
             </li>
 
             <li class="places-box">
-              <img class="places-box__photo" src="images/elbrus.jpg" alt="Фото - Эльбрус">
+              <img
+                class="places-box__photo"
+                src="images/elbrus.jpg"
+                alt="Фото - Эльбрус"
+              />
               <div class="places-box__emotion">
                 <h2 class="places-box__name">Гора Эльбрус</h2>
-                <button type="button" aria-label="Like" class="places-box__like"></button>
+                <button
+                  type="button"
+                  aria-label="Like"
+                  class="places-box__like"
+                ></button>
               </div>
             </li>
 
             <li class="places-box">
-              <img class="places-box__photo" src="images/dombay.jpg" alt="Фото - Домбай">
+              <img
+                class="places-box__photo"
+                src="images/dombay.jpg"
+                alt="Фото - Домбай"
+              />
               <div class="places-box__emotion">
                 <h2 class="places-box__name">Домбай</h2>
-                <button type="button" aria-label="Like" class="places-box__like"></button>
+                <button
+                  type="button"
+                  aria-label="Like"
+                  class="places-box__like"
+                ></button>
               </div>
             </li>
 
             <li class="places-box">
-              <img class="places-box__photo" src="images/elbrus.jpg" alt="Фото - Эльбрус">
+              <img
+                class="places-box__photo"
+                src="images/elbrus.jpg"
+                alt="Фото - Эльбрус"
+              />
               <div class="places-box__emotion">
                 <h2 class="places-box__name">Гора Эльбрус</h2>
-                <button type="button" aria-label="Like" class="places-box__like"></button>
+                <button
+                  type="button"
+                  aria-label="Like"
+                  class="places-box__like"
+                ></button>
               </div>
             </li>
 
             <li class="places-box">
-              <img class="places-box__photo" src="images/dombay.jpg" alt="Фото - Домбай">
+              <img
+                class="places-box__photo"
+                src="images/dombay.jpg"
+                alt="Фото - Домбай"
+              />
               <div class="places-box__emotion">
                 <h2 class="places-box__name">Домбай</h2>
-                <button type="button" aria-label="Like" class="places-box__like"></button>
+                <button
+                  type="button"
+                  aria-label="Like"
+                  class="places-box__like"
+                ></button>
               </div>
             </li>
 
             <li class="places-box">
-              <img class="places-box__photo" src="images/karachaevsk.jpg" alt="Фото - Карачаевск">
+              <img
+                class="places-box__photo"
+                src="images/karachaevsk.jpg"
+                alt="Фото - Карачаевск"
+              />
               <div class="places-box__emotion">
                 <h2 class="places-box__name">Карачаево-Черкесия</h2>
-                <button type="button" aria-label="Like" class="places-box__like"></button>
+                <button
+                  type="button"
+                  aria-label="Like"
+                  class="places-box__like"
+                ></button>
               </div>
             </li>
-
           </ul>
         </section>
       </main>
 
-      <footer class="footer"> 
-        <p class="footer__copyright">© 2020 Mesto Russia</p>        
+      <footer class="footer">
+        <p class="footer__copyright">© 2020 Mesto Russia</p>
       </footer>
-	  
     </div>
   </body>
 </html>
