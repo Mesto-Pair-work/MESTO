@@ -2,6 +2,12 @@
     width: 142px;
 }
 
+@media screen and (max-width: 880px) {
+    .header__logo-img {
+        margin-left: 19px;
+    }
+}
+
 @media screen and (max-width: 550px) {
     .header__logo-img {
         width: 103.74px;
