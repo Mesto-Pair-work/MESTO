@@ -40,12 +40,44 @@ const profileOccupation = document.querySelector(".profile__occupation");
 
 const templateCard = document.querySelector("#templateCard").content;
 
+//Элемент куда кладется новая карточка
+const placesItems = document.querySelector(".places__items");
+
 function clerAllFields(form) {
   form.querySelectorAll("input").forEach((inp) => (inp.value = ""));
 }
 
 function togglePopup(popup) {
   popup.classList.toggle("popup_opened");
+}
+
+function addNewCard(obj) {
+  const placesBox = templateCard.querySelector(".places-box").cloneNode(true);
+  const placesBoxPhoto = placesBox.querySelector(".places-box__photo");
+  const placesBoxName = placesBox.querySelector(".places-box__name");
+  placesBoxPhoto.src = obj.link;
+  placesBoxPhoto.alt = obj.name;
+  placesBoxName.textContent = obj.name;
+
+  let likeEmotion = placesBox.querySelector(".places-box__like");
+  likeEmotion.addEventListener("click", function () {
+    this.classList.toggle("places-box__like_active");
+  });
+
+  let delCard = placesBox.querySelector(".places-box__del-card");
+  delCard.addEventListener("click", function () {
+    placesBox.remove();
+  });
+
+  placesBoxPhoto.addEventListener("click", function () {
+    if(popupBigPhotoImg.src) popupBigPhotoImg.src = "";
+    popupBigPhotoImg.src = obj.link;
+    popupBigPhotoImg.alt = obj.name;
+    popupBigPhotoTitle.textContent = obj.name;
+    togglePopup(popupBigPhoto);
+  });
+
+  placesItems.prepend(placesBox);
 }
 
 profileEditBtn.addEventListener("click", function () {
@@ -115,36 +147,5 @@ const initialCards = [
     link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
   },
 ];
-
-const placesItems = document.querySelector(".places__items");
-
-function addNewCard(obj) {
-  const placesBox = templateCard.querySelector(".places-box").cloneNode(true);
-  const placesBoxPhoto = placesBox.querySelector(".places-box__photo");
-  const placesBoxName = placesBox.querySelector(".places-box__name");
-  placesBoxPhoto.src = obj.link;
-  placesBoxPhoto.alt = obj.name;
-  placesBoxName.textContent = obj.name;
-
-  let likeEmotion = placesBox.querySelector(".places-box__like");
-  likeEmotion.addEventListener("click", function () {
-    this.classList.toggle("places-box__like_active");
-  });
-
-  let delCard = placesBox.querySelector(".places-box__del-card");
-  delCard.addEventListener("click", function () {
-    placesBox.remove();
-  });
-
-  placesBoxPhoto.addEventListener("click", function () {
-    if(popupBigPhotoImg.src) popupBigPhotoImg.src = "";
-    popupBigPhotoImg.src = obj.link;
-    popupBigPhotoImg.alt = obj.name;
-    popupBigPhotoTitle.textContent = obj.name;
-    togglePopup(popupBigPhoto);
-  });
-
-  placesItems.prepend(placesBox);
-}
 
 initialCards.forEach(addNewCard);
