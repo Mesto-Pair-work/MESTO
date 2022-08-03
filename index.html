@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="pages/index.css" />
-    <script defer src="scripts/script.js"></script>
     <title>Место</title>
   </head>
   <body class="body">
@@ -51,13 +50,13 @@
           <form name="profile-form" class="popup__form" action="#">
             <input
               placeholder="Введите ваше полное имя"
-              class="popup__inp popup__fullname-inp"
+              class="popup__inp popup__inp_field_fullname"
               type="text"
               name="fullname"
             />
             <input
               placeholder="Введите ваш род занятий"
-              class="popup__inp popup__occupation-inp"
+              class="popup__inp popup__inp_field_occupation"
               type="text"
               name="occupation"
             />
@@ -77,13 +76,13 @@
           <form name="new-place-form" class="popup__form" action="#">
             <input
               placeholder="Название"
-              class="popup__inp popup__newplacename-inp"
+              class="popup__inp popup__inp_field_newplacename"
               type="text"
               name="newplacename"
             />
             <input
               placeholder="Ссылка на картинку"
-              class="popup__inp popup__newplacelink-inp"
+              class="popup__inp popup__inp_field_newplacelink"
               type="text"
               name="newplacelink"
             />
@@ -98,13 +97,13 @@
       </div>
 
       <div class="popup popup_type_big-photo">
-        <div class="popup__container popup__container_big-photo">
+        <div class="popup__container popup__container_type_big-photo">
           <img
             class="popup__big-img"
-            src=""
+            src="#"
             alt="описание"
           />
-          <h2 class="popup__title popup__title_big-photo">test</h2>
+          <h2 class="popup__title popup__title_type_big-photo">test</h2>
           <button
             aria-label="Close"
             type="button"
@@ -132,5 +131,7 @@
         </li>
       </template>
     </div>
+    <script src="scripts/cards.js"></script>
+    <script src="scripts/index.js"></script>
   </body>
 </html>
