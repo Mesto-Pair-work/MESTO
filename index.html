@@ -4,11 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="pages/index.css" />
+    <script defer src="scripts/script.js"></script>
     <title>Место</title>
   </head>
   <body class="body">
     <div class="page">
-      
       <header class="header">
         <img src="images/logo_white.svg" class="header__logo-img" alt="Лого" />
       </header>
@@ -36,136 +36,101 @@
           ></button>
         </section>
 
-        <div class="popup">
-          <div class="popup__container">
-            <h2 class="popup__title">Редактировать профиль</h2>
-            <form name="profile-form" class="popup__profile-form" action="#">
-              <input
-                placeholder="Введите ваше полное имя"
-                class="popup__inp"
-                type="text"
-                name="fullname"
-              />
-              <input
-                placeholder="Введите ваш род занятий"
-                class="popup__inp"
-                type="text"
-                name="occupation"
-              />
-              <button type="submit" class="popup__save-btn">Сохранить</button>
-            </form>
-            <button
-              aria-label="Close"
-              type="button"
-              class="popup__close-btn"
-            ></button>
-          </div>
-        </div>
-
         <section class="places">
-          <ul class="places__items">
-            <li class="places-box">
-              <img
-                class="places-box__photo"
-                src="images/karachaevsk.jpg"
-                alt="Фото - Карачаевск"
-              />
-              <div class="places-box__emotion">
-                <h2 class="places-box__name">Карачаевск</h2>
-                <button
-                  type="button"
-                  aria-label="Like"
-                  class="places-box__like places-box__like_active"
-                ></button>
-              </div>
-            </li>
-
-            <li class="places-box">
-              <img
-                class="places-box__photo"
-                src="images/elbrus.jpg"
-                alt="Фото - Эльбрус"
-              />
-              <div class="places-box__emotion">
-                <h2 class="places-box__name">Гора Эльбрус</h2>
-                <button
-                  type="button"
-                  aria-label="Like"
-                  class="places-box__like"
-                ></button>
-              </div>
-            </li>
-
-            <li class="places-box">
-              <img
-                class="places-box__photo"
-                src="images/dombay.jpg"
-                alt="Фото - Домбай"
-              />
-              <div class="places-box__emotion">
-                <h2 class="places-box__name">Домбай</h2>
-                <button
-                  type="button"
-                  aria-label="Like"
-                  class="places-box__like"
-                ></button>
-              </div>
-            </li>
-
-            <li class="places-box">
-              <img
-                class="places-box__photo"
-                src="images/elbrus.jpg"
-                alt="Фото - Эльбрус"
-              />
-              <div class="places-box__emotion">
-                <h2 class="places-box__name">Гора Эльбрус</h2>
-                <button
-                  type="button"
-                  aria-label="Like"
-                  class="places-box__like"
-                ></button>
-              </div>
-            </li>
-
-            <li class="places-box">
-              <img
-                class="places-box__photo"
-                src="images/dombay.jpg"
-                alt="Фото - Домбай"
-              />
-              <div class="places-box__emotion">
-                <h2 class="places-box__name">Домбай</h2>
-                <button
-                  type="button"
-                  aria-label="Like"
-                  class="places-box__like"
-                ></button>
-              </div>
-            </li>
-
-            <li class="places-box">
-              <img
-                class="places-box__photo"
-                src="images/karachaevsk.jpg"
-                alt="Фото - Карачаевск"
-              />
-              <div class="places-box__emotion">
-                <h2 class="places-box__name">Карачаево-Черкесия</h2>
-                <button
-                  type="button"
-                  aria-label="Like"
-                  class="places-box__like"
-                ></button>
-              </div>
-            </li>
-          </ul>
+          <ul class="places__items"></ul>
         </section>
       </main>
 
       <footer class="footer">
         <p class="footer__copyright">© 2020 Mesto Russia</p>
       </footer>
+
+      <div class="popup popup_type_profile">
+        <div class="popup__container">
+          <h2 class="popup__title">Редактировать профиль</h2>
+          <form name="profile-form" class="popup__form" action="#">
+            <input
+              placeholder="Введите ваше полное имя"
+              class="popup__inp popup__fullname-inp"
+              type="text"
+              name="fullname"
+            />
+            <input
+              placeholder="Введите ваш род занятий"
+              class="popup__inp popup__occupation-inp"
+              type="text"
+              name="occupation"
+            />
+            <button type="submit" class="popup__save-btn">Сохранить</button>
+          </form>
+          <button
+            aria-label="Close"
+            type="button"
+            class="popup__close-btn"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup popup_type_new-place">
+        <div class="popup__container">
+          <h2 class="popup__title">Новое место</h2>
+          <form name="new-place-form" class="popup__form" action="#">
+            <input
+              placeholder="Название"
+              class="popup__inp popup__newplacename-inp"
+              type="text"
+              name="newplacename"
+            />
+            <input
+              placeholder="Ссылка на картинку"
+              class="popup__inp popup__newplacelink-inp"
+              type="text"
+              name="newplacelink"
+            />
+            <button type="submit" class="popup__save-btn">Создать</button>
+          </form>
+          <button
+            aria-label="Close"
+            type="button"
+            class="popup__close-btn"
+          ></button>
+        </div>
+      </div>
+
+      <div class="popup popup_type_big-photo">
+        <div class="popup__container popup__container_big-photo">
+          <img
+            class="popup__big-img"
+            src=""
+            alt="описание"
+          />
+          <h2 class="popup__title popup__title_big-photo">test</h2>
+          <button
+            aria-label="Close"
+            type="button"
+            class="popup__close-btn"
+          ></button>
+        </div>
+      </div>
+
+      <template id="templateCard">
+        <li class="places-box">
+          <img class="places-box__photo" src="" alt="" />
+          <div class="places-box__emotion">
+            <h2 class="places-box__name"></h2>
+            <button
+              type="button"
+              aria-label="Like"
+              class="places-box__like"
+            ></button>
+            <button
+              type="button"
+              aria-label="del-card"
+              class="places-box__del-card"
+            ></button>
+          </div>
+        </li>
+      </template>
     </div>
   </body>
 </html>

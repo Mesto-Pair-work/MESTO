@@ -1,0 +1,14 @@
+.places-box__del-card {
+    background: url(../../../images/trash.svg) center no-repeat;
+    width: 18px;
+    height: 19px;
+    cursor: pointer;
+    border: none;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.places-box__del-card:hover {
+    opacity: 0.6;
+}
