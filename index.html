@@ -53,12 +53,20 @@
               class="popup__inp popup__inp_field_fullname"
               type="text"
               name="fullname"
+              maxlength="40"
+              minlength="2"
+              pattern="//"
+              required
             />
             <input
               placeholder="Введите ваш род занятий"
               class="popup__inp popup__inp_field_occupation"
               type="text"
               name="occupation"
+              maxlength="200"
+              minlength="2"
+              pattern="//"
+              required
             />
             <button type="submit" class="popup__save-btn">Сохранить</button>
           </form>
@@ -79,12 +87,17 @@
               class="popup__inp popup__inp_field_newplacename"
               type="text"
               name="newplacename"
+              maxlength="30"
+              minlength="2"
+              pattern="//"
+              required
             />
             <input
               placeholder="Ссылка на картинку"
               class="popup__inp popup__inp_field_newplacelink"
-              type="text"
+              type="url"
               name="newplacelink"
+              required
             />
             <button type="submit" class="popup__save-btn">Создать</button>
           </form>
@@ -131,7 +144,7 @@
         </li>
       </template>
     </div>
-    <script src="scripts/cards.js"></script>
+    <script src="scripts/components/cards.js"></script>
     <script src="scripts/index.js"></script>
   </body>
 </html>

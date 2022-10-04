@@ -49,6 +49,7 @@ function openPopup(popup) {
 
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
+  popup.querySelector(".popup__form").reset();
 }
 
 function createNewCard(obj) {
@@ -106,7 +107,6 @@ profileButtonPlus.addEventListener("click", function () {
 
 popupCloseBtnNewPlace.addEventListener("click", function () {
   closePopup(popupNewPlace);
-  formNewPlace.reset();
 });
 
 popupCloseBtnBigPhoto.addEventListener("click", function () {
@@ -120,9 +120,20 @@ formNewPlace.addEventListener("submit", function (evt) {
     link: popupNewPlaceLinkInp.value,
   };
   addNewCard(card);
-  formNewPlace.reset();
   closePopup(popupNewPlace);
 });
+
+//убираем попап по клику на оверлей и на esc
+let popups = document.querySelectorAll('.popup');
+popups.forEach(function(popup) {
+  document.addEventListener("keydown", (evt) => {
+    if(evt.key === "Escape") closePopup(popup);
+  });
+  popup.addEventListener("mousedown", function(evt) {
+    if (evt.target === this) closePopup(popup);    
+  })
+});
+
 
 initialCards.forEach(addNewCard);
 
