@@ -1,0 +1,7 @@
+.popup__field:last-of-type .popup__inp {
+    margin-bottom: 48px;
+}
+
+.popup__field {
+    position: relative;
+}

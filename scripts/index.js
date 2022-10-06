@@ -1,46 +1,32 @@
-// Получаем элемент кнопки ред.профиля
 const profileEditBtn = document.querySelector(".profile__edit-btn");
-
-// Получаем элемент кнопки добавление карточки
 const profileButtonPlus = document.querySelector(".profile__button-plus");
-
-// Три попап элемента: профиль, биг фото и добавление карточки
 const popupProfile = document.querySelector(".popup_type_profile");
 const popupNewPlace = document.querySelector(".popup_type_new-place");
 const popupBigPhoto = document.querySelector(".popup_type_big-photo");
-
-//Получаем img and title большого папапа с фото
 const popupBigPhotoImg = popupBigPhoto.querySelector(".popup__big-img");
-const popupBigPhotoTitle = popupBigPhoto.querySelector(".popup__title_type_big-photo");
-
-// Две формы: профиль и добавление карты
+const popupBigPhotoTitle = popupBigPhoto.querySelector(
+  ".popup__title_type_big-photo"
+);
 const formProfile = popupProfile.querySelector(".popup__form");
 const formNewPlace = popupNewPlace.querySelector(".popup__form");
-
-//Три кнопки Close:
 const popupCloseBtnProfile = popupProfile.querySelector(".popup__close-btn");
 const popupCloseBtnNewPlace = popupNewPlace.querySelector(".popup__close-btn");
 const popupCloseBtnBigPhoto = popupBigPhoto.querySelector(".popup__close-btn");
-
-//Поля формы профиля: имя и род занятий
-const popupFullnameInp = popupProfile.querySelector(".popup__inp_field_fullname");
-const popupOccupationInp = popupProfile.querySelector(".popup__inp_field_occupation");
-
-//Поля формы для добавления карточки: линк и название
+const popupFullnameInp = popupProfile.querySelector(
+  ".popup__inp_field_fullname"
+);
+const popupOccupationInp = popupProfile.querySelector(
+  ".popup__inp_field_occupation"
+);
 const popupNewPlaceLinkInp = popupNewPlace.querySelector(
   ".popup__inp_field_newplacelink"
 );
 const popupNewPlaceNameInp = popupNewPlace.querySelector(
   ".popup__inp_field_newplacename"
 );
-
-//Элементы в профиле: имя и род занятий
 const profileFullNname = document.querySelector(".profile__full-name");
 const profileOccupation = document.querySelector(".profile__occupation");
-
 const templateCard = document.querySelector("#templateCard").content;
-
-//Элемент куда кладется новая карточка
 const placesItem = document.querySelector(".places__items");
 
 function openPopup(popup) {
@@ -49,7 +35,9 @@ function openPopup(popup) {
 
 function closePopup(popup) {
   popup.classList.remove("popup_opened");
-  popup.querySelector(".popup__form").reset();
+  if (popup.querySelector(".popup__form")) {
+    popup.querySelector(".popup__form").reset();
+  }
 }
 
 function createNewCard(obj) {
@@ -77,7 +65,7 @@ function createNewCard(obj) {
     openPopup(popupBigPhoto);
   });
 
-  return placesBox;  
+  return placesBox;
 }
 
 function addNewCard(obj) {
@@ -124,16 +112,14 @@ formNewPlace.addEventListener("submit", function (evt) {
 });
 
 //убираем попап по клику на оверлей и на esc
-let popups = document.querySelectorAll('.popup');
-popups.forEach(function(popup) {
+let popups = document.querySelectorAll(".popup");
+popups.forEach(function (popup) {
   document.addEventListener("keydown", (evt) => {
-    if(evt.key === "Escape") closePopup(popup);
+    if (evt.key === "Escape") closePopup(popup);
   });
-  popup.addEventListener("mousedown", function(evt) {
-    if (evt.target === this) closePopup(popup);    
-  })
+  popup.addEventListener("mousedown", function (evt) {
+    if (evt.target === this) closePopup(popup);
+  });
 });
 
-
 initialCards.forEach(addNewCard);
-

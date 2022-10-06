@@ -1,0 +1,7 @@
+.popup__inp-error_active {
+    opacity: 1;
+}
+
+.popup__input_type_error {
+    border-bottom: 1px solid red;
+}
