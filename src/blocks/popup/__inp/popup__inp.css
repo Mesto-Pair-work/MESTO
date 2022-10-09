@@ -2,11 +2,13 @@
     border: none;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     outline: none;
-    margin-bottom: 26px;
+    margin-bottom: 40px;
     font: 400 14px/16.94px "Inter", Arial, sans-serif;
     padding-bottom: 13px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.popup__inp:last-of-type {
+/* .popup__inp:last-of-type {
     margin-bottom: 48px;
-}
+} */

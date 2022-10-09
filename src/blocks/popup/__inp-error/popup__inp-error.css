@@ -1,0 +1,16 @@
+.popup__inp-error {
+    font: 400 12px/15px "Inter", Arial, sans-serif;
+    color: red;
+    opacity: 0;
+    position: absolute;
+    top: calc(0% + 35px);
+    left: 0;
+    transition: 0.3s;
+    max-width: 350px
+}
+
+@media screen and (max-width: 550px) {
+    .popup__inp-error {
+        font: 400 11px/12px "Inter", Arial, sans-serif;
+    }
+}
