@@ -15,14 +15,16 @@
 
       <main class="main">
         <section class="profile">
-          <img
-            class="profile__photo"
-            src="images/avatar.jpg"
-            alt="Фото профиля"
-          />
+          <a class="profile__edit-avatar" href="#">
+            <img
+              class="profile__photo"
+              src="images/avatar.jpg"
+              alt="Фото профиля"
+            />
+          </a>
           <div class="profile__about-me">
-            <h1 class="profile__full-name">Жак-Ив Кусто</h1>
-            <p class="profile__occupation">Исследователь океана</p>
+            <h1 class="profile__full-name">...</h1>
+            <p class="profile__occupation">...</p>
             <button
               type="button"
               aria-label="Редактировать профиль"
@@ -91,6 +93,46 @@
         </div>
       </div>
 
+
+
+
+
+
+
+      <div class="popup popup_type_avatar">
+        <div class="popup__container">
+          <h2 class="popup__title">Обновить аватар</h2>
+          <form name="profile-form" class="popup__form" novalidate>
+            <label class="popup__field">
+              <input
+                autocomplete="off"
+                placeholder="Введите url аватара"
+                class="popup__inp popup__inp_field_avatar"
+                id="input_avatar"
+                type="url"
+                name="avatarurl"
+                required
+              />
+              <span class="popup__inp-error input_avatar-error"></span>
+            </label>
+            <button type="submit" class="popup__save-btn">Обновить</button>
+          </form>
+          <button
+            aria-label="Close"
+            type="button"
+            class="popup__close-btn"
+          ></button>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
       <div class="popup popup_type_new-place">
         <div class="popup__container">
           <h2 class="popup__title">Новое место</h2>
@@ -149,20 +191,19 @@
           <img class="places-box__photo" src="#" alt="" />
           <div class="places-box__emotion">
             <h2 class="places-box__name"></h2>
-            <button
-              type="button"
-              aria-label="Like"
-              class="places-box__like"
-            ></button>
-            <button
-              type="button"
-              aria-label="del-card"
-              class="places-box__del-card"
-            ></button>
+            <div class="places-box__like-box">
+              <button
+                type="button"
+                aria-label="Like"
+                class="places-box__like"
+              ></button>
+              <span class="places-box__like-num">0</span>
+            </div>
           </div>
         </li>
       </template>
     </div>
+    <script type="module" src="scripts/components/api.js"></script>
     <script type="module" src="scripts/components/utils.js"></script>
     <script type="module" src="scripts/components/modal.js"></script>
     <script type="module" src="scripts/components/validate.js"></script>

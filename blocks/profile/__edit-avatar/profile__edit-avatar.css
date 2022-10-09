@@ -1,0 +1,9 @@
+.profile__edit-avatar {
+    align-self: flex-start;
+    margin-right: 30px;
+    border-radius: 50%;
+}
+
+.profile__edit-avatar:hover {
+    background: url("/images/edit_avatar.svg") center no-repeat;
+}
