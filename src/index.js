@@ -120,20 +120,6 @@ popups.forEach(function (popup) {
 });
 //-----------------------------------------------------------------//
 
-//Загружаем карточки
-// getInitialCards()
-//   .then((cards) => {
-//     getUser().then((user) => {
-//       addUser(user);
-//       cards.forEach((card) => {
-//         addNewCard(card, user._id);
-//       });
-//     });
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
-
 Promise.all([getUser(), getInitialCards()])
   .then(([user, cards]) => {
     addUser(user);
