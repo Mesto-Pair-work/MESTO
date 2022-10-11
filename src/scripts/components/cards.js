@@ -1,6 +1,8 @@
 import { openPopup } from "./modal.js";
 import { delCard, addLike, delLike } from "./api.js";
 
+const placesItem = document.querySelector(".places__items");
+
 function createNewCard(card) {
   const popupBigPhoto = document.querySelector(".popup_type_big-photo");
   const popupBigPhotoImg = popupBigPhoto.querySelector(".popup__big-img");
@@ -10,7 +12,6 @@ function createNewCard(card) {
   const templateCard = document.querySelector("#templateCard").content;
   const placesBox = templateCard.querySelector(".places-box").cloneNode(true);
   const iconDelCard = placesBox.querySelector(".places-box__del-card");
-  const placesBoxEmotion = placesBox.querySelector(".places-box__emotion");
   const placesBoxPhoto = placesBox.querySelector(".places-box__photo");
   const placesBoxName = placesBox.querySelector(".places-box__name");
   const placesBboxLikeNum = placesBox.querySelector(".places-box__like-num");
@@ -52,6 +53,9 @@ function createNewCard(card) {
     iconDelCard.addEventListener("click", function () {
       delCard(card._id).then((card) => {
         placesBox.remove();
+      })
+      .catch((err) => {
+        console.log(err);
       });
     });
   }
@@ -68,6 +72,5 @@ function createNewCard(card) {
 
 export function addNewCard(card, userId) {
   card.userId = userId;
-  const placesItem = document.querySelector(".places__items");
   placesItem.prepend(createNewCard(card));
 }
