@@ -7,12 +7,16 @@ import {
   editAvatar,
 } from "./scripts/components/api.js";
 import { addUser } from "./scripts/components/utils.js";
-import { Validate } from "./scripts/components/validate.js";
-import { openPopup, closePopup } from "./scripts/components/modal.js";
+import { enableValidation } from "./scripts/components/validate.js";
+import {
+  openPopup,
+  closePopup,
+  closeByEsc,
+} from "./scripts/components/modal.js";
 import { addNewCard } from "./scripts/components/cards.js";
 
 //----------------------Elements --------------------------------------------------------------//
-const popups = document.querySelectorAll(".popup"); 
+const popups = document.querySelectorAll(".popup");
 const profileEditBtn = document.querySelector(".profile__edit-btn");
 const profileEditAvatar = document.querySelector(".profile__edit-avatar");
 const profileButtonPlus = document.querySelector(".profile__button-plus");
@@ -56,14 +60,17 @@ formProfile.addEventListener("submit", (evt) => {
   })
     .then((user) => {
       addUser(user);
-      formProfile.querySelector(".popup__save-btn").textContent = "Сохранить";
       closePopup(popupProfile);
+    })
+    .finally((user) => {
+      formProfile.querySelector(".popup__save-btn").textContent = "Сохранить";
     })
     .catch((err) => {
       console.log(err);
     });
 });
 profileButtonPlus.addEventListener("click", () => {
+  formNewPlace.reset();
   openPopup(popupNewPlace);
 });
 formNewPlace.addEventListener("submit", (evt) => {
@@ -76,33 +83,33 @@ formNewPlace.addEventListener("submit", (evt) => {
   setCard(card)
     .then((card) => {
       addNewCard(card, card.owner._id);
-      formNewPlace.querySelector(".popup__save-btn").textContent = "Сохранить";
       closePopup(popupNewPlace);
+    })
+    .finally((card) => {
+      formNewPlace.querySelector(".popup__save-btn").textContent = "Создать";
     })
     .catch((err) => {
       console.log(err);
     });
 });
 profileEditAvatar.addEventListener("click", () => {
-  openPopup(popupAvatar);  
+  formAvatar.reset();
+  openPopup(popupAvatar);
 });
 formAvatar.addEventListener("submit", (evt) => {
   formAvatar.querySelector(".popup__save-btn").textContent = "Сохранение...";
   evt.preventDefault();
   editAvatar(popupInpFieldAvatar.value)
-  .then((user) => {
-    addUser(user);
-    formAvatar.querySelector(".popup__save-btn").textContent = "Обновить";
-    closePopup(popupAvatar);
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+    .then((user) => {
+      addUser(user);
+      formAvatar.querySelector(".popup__save-btn").textContent = "Обновить";
+      closePopup(popupAvatar);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 });
 popups.forEach(function (popup) {
-  document.addEventListener("keydown", (evt) => {
-    if (evt.key === "Escape") closePopup(popup);
-  });
   popup.addEventListener("mousedown", (evt) => {
     if (evt.target === popup) closePopup(popup);
   });
@@ -114,20 +121,31 @@ popups.forEach(function (popup) {
 //-----------------------------------------------------------------//
 
 //Загружаем карточки
-getInitialCards()
-  .then((cards) => {
-    getUser().then((user) => {
-      addUser(user);
-      cards.forEach((card) => {
-        addNewCard(card, user._id);
-      });
+// getInitialCards()
+//   .then((cards) => {
+//     getUser().then((user) => {
+//       addUser(user);
+//       cards.forEach((card) => {
+//         addNewCard(card, user._id);
+//       });
+//     });
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+
+Promise.all([getUser(), getInitialCards()])
+  .then(([user, cards]) => {
+    addUser(user);
+    cards.forEach((card) => {
+      addNewCard(card, user._id);
     });
   })
   .catch((err) => {
     console.log(err);
   });
 
-Validate.enableValidation({
+enableValidation({
   formSelector: ".popup__form",
   inputSelector: ".popup__inp",
   submitButtonSelector: ".popup__save-btn",
