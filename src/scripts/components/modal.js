@@ -13,6 +13,6 @@ export function openPopup(popup) {
 
 export function closePopup(popup) {
   popup.classList.remove("popup_opened");
-  document.addEventListener('keydown', closeByEsc);
+  document.removeEventListener('keydown', closeByEsc);
 }
 
