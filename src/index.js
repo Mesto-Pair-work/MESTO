@@ -7,7 +7,7 @@ import {
     editAvatar,
 } from "./scripts/components/api.js";
 import {setUserInfo} from "./scripts/components/utils.js";
-import FormValidator from "./scripts/components/validate.js";
+import FormValidator from "./scripts/components/FormValidator.js";
 import {openPopup, closePopup} from "./scripts/components/modal.js";
 import {addNewCard} from "./scripts/components/cards.js";
 
@@ -139,4 +139,24 @@ const avatarValidForm = new FormValidator({
     },
     formAvatar)
 
+const profileValidForm = new FormValidator({
+        formSelector: ".popup__form",
+        inputSelector: ".popup__inp",
+        submitButtonSelector: ".popup__save-btn",
+        inputErrorClass: "popup__input_type_error",
+        errorClass: "popup__inp-error_active",
+    },
+    formProfile)
+
+const newPlaceValidForm = new FormValidator({
+        formSelector: ".popup__form",
+        inputSelector: ".popup__inp",
+        submitButtonSelector: ".popup__save-btn",
+        inputErrorClass: "popup__input_type_error",
+        errorClass: "popup__inp-error_active",
+    },
+    formNewPlace)
+
+newPlaceValidForm.enableValidation()
+profileValidForm.enableValidation()
 avatarValidForm.enableValidation()
