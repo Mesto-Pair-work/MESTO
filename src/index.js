@@ -1,56 +1,46 @@
 import "./pages/index.css";
-import {
-    getInitialCards,
-    getUser,
-    editUser,
-    setCard,
-    editAvatar,
-} from "./scripts/components/api.js";
-import {setUserInfo} from "./scripts/components/utils.js";
+import { setUserInfo } from "./scripts/components/utils.js";
 import FormValidator from "./scripts/components/FormValidator.js";
-import {openPopup, closePopup} from "./scripts/components/modal.js";
-import {addNewCard} from "./scripts/components/cards.js";
-
-//----------------------Elements --------------------------------------------------------------//
-const popups = document.querySelectorAll(".popup");
-const profileEditBtn = document.querySelector(".profile__edit-btn");
-const profileEditAvatar = document.querySelector(".profile__edit-avatar");
-const profileButtonPlus = document.querySelector(".profile__button-plus");
-const popupProfile = document.querySelector(".popup_type_profile");
-const popupNewPlace = document.querySelector(".popup_type_new-place");
-const popupAvatar = document.querySelector(".popup_type_avatar");
-const formAvatar = popupAvatar.querySelector(".popup__form");
-const formProfile = popupProfile.querySelector(".popup__form");
-const formNewPlace = popupNewPlace.querySelector(".popup__form");
-const popupFullnameInp = popupProfile.querySelector(
-    ".popup__inp_field_fullname"
-);
-const popupOccupationInp = popupProfile.querySelector(
-    ".popup__inp_field_occupation"
-);
-const popupNewPlaceLinkInp = popupNewPlace.querySelector(
-    ".popup__inp_field_newplacelink"
-);
-const popupNewPlaceNameInp = popupNewPlace.querySelector(
-    ".popup__inp_field_newplacename"
-);
-const popupInpFieldAvatar = popupAvatar.querySelector(
-    ".popup__inp_field_avatar"
-);
-const profileFullNname = document.querySelector(".profile__full-name");
-const profileOccupation = document.querySelector(".profile__occupation");
-//---------- --------------------------------------------------------------------------------------//
+import { openPopup, closePopup } from "./scripts/components/modal.js";
+import { api } from "./scripts/components/api.js";
+import { Section } from "./scripts/components/section.js";
+import { Card } from "./scripts/components/card.js";
+import {
+    popups,
+    profileEditBtn,
+    profileEditAvatar,
+    profileButtonPlus,
+    popupProfile,
+    popupNewPlace,
+    popupAvatar,
+    formAvatar,
+    formProfile,
+    formNewPlace,
+    popupFullnameInp,
+    popupOccupationInp,
+    popupNewPlaceLinkInp,
+    popupNewPlaceNameInp,
+    popupInpFieldAvatar,
+    profileFullNname,
+    profileOccupation,
+    placesItem,
+    validationConfig,
+} from "./scripts/components/constants.js";
 
 //------------------------Events ---------------------------------//
+
+//Клик по кнопке редактирования профиля
 profileEditBtn.addEventListener("click", () => {
     openPopup(popupProfile);
     popupFullnameInp.value = profileFullNname.textContent;
     popupOccupationInp.value = profileOccupation.textContent;
 });
+
+//Submit формы профиля
 formProfile.addEventListener("submit", (evt) => {
     evt.submitter.textContent = "Сохранение...";
     evt.preventDefault();
-    editUser({
+    api.editUser({
         name: popupFullnameInp.value,
         about: popupOccupationInp.value,
     })
@@ -66,9 +56,13 @@ formProfile.addEventListener("submit", (evt) => {
             console.log(err);
         });
 });
+
+//Клик по кнопке добавления карточки
 profileButtonPlus.addEventListener("click", () => {
     openPopup(popupNewPlace);
 });
+
+//Submit формы добавления карточки
 formNewPlace.addEventListener("submit", (evt) => {
     evt.submitter.textContent = "Сохранение...";
     evt.preventDefault();
@@ -76,9 +70,15 @@ formNewPlace.addEventListener("submit", (evt) => {
         name: popupNewPlaceNameInp.value,
         link: popupNewPlaceLinkInp.value,
     };
-    setCard(card)
+    api.setCard(card)
         .then((card) => {
-            addNewCard(card, card.owner._id);
+
+            const cardList = new Section(card.owner._id, [card], (card) => {
+                const cardElement = new Card("#templateCard", card).generate();
+                cardList.setItem(cardElement);
+            }, placesItem);
+            cardList.renderItems();
+
             closePopup(popupNewPlace);
             evt.target.reset();
         })
@@ -89,13 +89,17 @@ formNewPlace.addEventListener("submit", (evt) => {
             console.log(err);
         });
 });
+
+//Клик по аватару
 profileEditAvatar.addEventListener("click", () => {
     openPopup(popupAvatar);
 });
+
+//Submit формы добавления нового аватара
 formAvatar.addEventListener("submit", (evt) => {
     evt.submitter.textContent = "Сохранение...";
     evt.preventDefault();
-    editAvatar(popupInpFieldAvatar.value)
+    api.editAvatar(popupInpFieldAvatar.value)
         .then((user) => {
             setUserInfo(user);
             closePopup(popupAvatar);
@@ -108,6 +112,8 @@ formAvatar.addEventListener("submit", (evt) => {
             console.log(err);
         });
 });
+
+//Перебираем все попапы и навешиваем на них события ( клик вне попапа и клик по крестику)
 popups.forEach(function (popup) {
     popup.addEventListener("mousedown", (evt) => {
         if (evt.target === popup) closePopup(popup);
@@ -119,43 +125,24 @@ popups.forEach(function (popup) {
 });
 //-----------------------------------------------------------------//
 
-Promise.all([getUser(), getInitialCards()])
+//Достаем юзера и все карточки с сервера, вносим всё в разметку
+Promise.all([api.getUser(), api.getInitialCards()])
     .then(([user, cards]) => {
         setUserInfo(user);
-        cards.forEach((card) => {
-            addNewCard(card, user._id);
-        });
+        const userId = user._id;
+        const cardList = new Section(userId, cards, (card) => {
+            const cardElement = new Card("#templateCard", card).generate();
+            cardList.setItem(cardElement);
+        }, placesItem);
+        cardList.renderItems();
     })
     .catch((err) => {
-        console.log(err);
+        console.log(`Какая-то ошибка ${err}`);
     });
-
-const avatarValidForm = new FormValidator({
-        formSelector: ".popup__form",
-        inputSelector: ".popup__inp",
-        submitButtonSelector: ".popup__save-btn",
-        inputErrorClass: "popup__input_type_error",
-        errorClass: "popup__inp-error_active",
-    },
-    formAvatar)
-
-const profileValidForm = new FormValidator({
-        formSelector: ".popup__form",
-        inputSelector: ".popup__inp",
-        submitButtonSelector: ".popup__save-btn",
-        inputErrorClass: "popup__input_type_error",
-        errorClass: "popup__inp-error_active",
-    },
-    formProfile)
-
-const newPlaceValidForm = new FormValidator({
-        formSelector: ".popup__form",
-        inputSelector: ".popup__inp",
-        submitButtonSelector: ".popup__save-btn",
-        inputErrorClass: "popup__input_type_error",
-        errorClass: "popup__inp-error_active",
-    },
-    formNewPlace)
+//Валидация форм
+const avatarValidForm = new FormValidator(validationConfig, formAvatar)
+const profileValidForm = new FormValidator(validationConfig, formProfile)
+const newPlaceValidForm = new FormValidator(validationConfig, formNewPlace)
 
 newPlaceValidForm.enableValidation()
 profileValidForm.enableValidation()
