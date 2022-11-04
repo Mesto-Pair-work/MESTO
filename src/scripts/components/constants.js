@@ -35,3 +35,11 @@ export const popupBigPhotoImg = popupBigPhoto.querySelector(".popup__big-img");
 export const popupBigPhotoTitle = popupBigPhoto.querySelector(
   ".popup__title_type_big-photo"
 );
+
+export const validationConfig = {
+    formSelector: ".popup__form",
+    inputSelector: ".popup__inp",
+    submitButtonSelector: ".popup__save-btn",
+    inputErrorClass: "popup__input_type_error",
+    errorClass: "popup__inp-error_active",
+};
