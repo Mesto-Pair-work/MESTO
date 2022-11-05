@@ -1,11 +1,12 @@
 import "./pages/index.css";
-import { setUserInfo } from "./scripts/components/utils.js";
 import { enableValidation } from "./scripts/components/validate.js";
 import { openPopup, closePopup } from "./scripts/components/modal.js";
-import { api } from "./scripts/components/api.js";
+import { Api } from "./scripts/components/api.js";
 import { Section } from "./scripts/components/section.js";
 import { Card } from "./scripts/components/card.js";
+import { UserInfo } from "./scripts/components/userinfo.js";
 import {
+  settings,
   popups,
   profileEditBtn,
   profileEditAvatar,
@@ -23,36 +24,41 @@ import {
   popupInpFieldAvatar,
   profileFullNname,
   profileOccupation,
-  placesItem
+  placesItem,
 } from "./scripts/components/constants.js";
+
+const api = new Api(settings);
+const userInfo = new UserInfo(
+  ".profile__full-name",
+  ".profile__occupation",
+  ".profile__photo",
+  api
+);
 
 //------------------------Events ---------------------------------//
 
 //Клик по кнопке редактирования профиля
 profileEditBtn.addEventListener("click", () => {
   openPopup(popupProfile);
-  popupFullnameInp.value = profileFullNname.textContent;
-  popupOccupationInp.value = profileOccupation.textContent;
+  userInfo.getUserInfo().then((user) => {
+    popupFullnameInp.value = user.about;
+    popupOccupationInp.value = user.name;
+  });
 });
 
 //Submit формы профиля
 formProfile.addEventListener("submit", (evt) => {
   evt.submitter.textContent = "Сохранение...";
   evt.preventDefault();
-  api.editUser({
-    name: popupFullnameInp.value,
-    about: popupOccupationInp.value,
-  })
-    .then((user) => {
-      setUserInfo(user);
-      closePopup(popupProfile);
+  userInfo
+    .setUserInfo({
+      name: popupFullnameInp.value,
+      about: popupOccupationInp.value,
+    })
+    .finally(() => {
       evt.target.reset();
-    })
-    .finally((user) => {
       evt.submitter.textContent = "Сохранить";
-    })
-    .catch((err) => {
-      console.log(err);
+      closePopup(popupProfile);
     });
 });
 
@@ -69,13 +75,18 @@ formNewPlace.addEventListener("submit", (evt) => {
     name: popupNewPlaceNameInp.value,
     link: popupNewPlaceLinkInp.value,
   };
-  api.setCard(card)
+  api
+    .setCard(card)
     .then((card) => {
-      
-      const cardList = new Section(card.owner._id, [card], (card) => {
-        const cardElement = new Card("#templateCard", card).generate();
-        cardList.setItem(cardElement);
-      }, placesItem);
+      const cardList = new Section(
+        card.owner._id,
+        [card],
+        (card) => {
+          const cardElement = new Card("#templateCard", card, api).generate();
+          cardList.setItem(cardElement);
+        },
+        placesItem
+      );
       cardList.renderItems();
 
       closePopup(popupNewPlace);
@@ -98,18 +109,12 @@ profileEditAvatar.addEventListener("click", () => {
 formAvatar.addEventListener("submit", (evt) => {
   evt.submitter.textContent = "Сохранение...";
   evt.preventDefault();
-  api.editAvatar(popupInpFieldAvatar.value)
-    .then((user) => {
-      setUserInfo(user);
-      closePopup(popupAvatar);
-      evt.target.reset();
-    })
-    .finally((card) => {
-      evt.submitter.textContent = "Обновить";
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+  userInfo.setAvatarInfo(popupInpFieldAvatar.value)
+  .finally(() => {
+    evt.submitter.textContent = "Обновить";
+    closePopup(popupAvatar);
+    evt.target.reset();
+  })
 });
 
 //Перебираем все попапы и навешиваем на них события ( клик вне попапа и клик по крестику)
@@ -127,16 +132,21 @@ popups.forEach(function (popup) {
 //Достаем юзера и все карточки с сервера, вносим всё в разметку
 Promise.all([api.getUser(), api.getInitialCards()])
   .then(([user, cards]) => {
-    setUserInfo(user);
+    userInfo.setUserInfo(user, true);
     const userId = user._id;
-    const cardList = new Section(userId, cards, (card) => {
-      const cardElement = new Card("#templateCard", card).generate();
-      cardList.setItem(cardElement);
-    }, placesItem);
+    const cardList = new Section(
+      userId,
+      cards,
+      (card) => {
+        const cardElement = new Card("#templateCard", card, api).generate();
+        cardList.setItem(cardElement);
+      },
+      placesItem
+    );
     cardList.renderItems();
   })
   .catch((err) => {
-    console.log(`Какая-то ошибка ${err}`);
+    console.log(`Ошибка ${err}`);
   });
 
 //Валидация форм

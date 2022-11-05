@@ -1,11 +1,10 @@
 "use strict";
 import {popupBigPhoto, popupBigPhotoImg, popupBigPhotoTitle} from "./constants.js";
 import { openPopup } from "./modal.js";
-import { api } from "./api.js";
 
 //Класс принимает в конструктор данные карты(Card) и селектор её template-элемента (selector);
 export class Card {
-  constructor(selector, card) {
+  constructor(selector, card, api) {
     this._selector = selector;
     this._link = card.link;
     this._title = card.name;
@@ -13,7 +12,9 @@ export class Card {
     this._userId = card.userId;
     this._id = card._id;
     this._owner = card.owner;
+    this._api = api;
   }
+  
 
   _getElement() {
     const cardElement = document
@@ -26,7 +27,7 @@ export class Card {
 
   _handleAddLike() {
     if (!this._boxLike.classList.contains("places-box__like_active")) {
-      api.addLike(this._id) 
+      this._api.addLike(this._id) 
         .then((card) => {
           this._boxLike.classList.toggle("places-box__like_active");
           this._placesBboxLikeNum.textContent = card.likes.length;
@@ -35,7 +36,7 @@ export class Card {
           console.log(err);
         });
     } else {
-      api.delLike(this._id) 
+      this._api.delLike(this._id) 
         .then((card) => {
           this._boxLike.classList.toggle("places-box__like_active");
           this._placesBboxLikeNum.textContent = card.likes.length;
@@ -52,7 +53,7 @@ export class Card {
       this._iconDelCard.remove();
     } else {
       this._iconDelCard.addEventListener("click", () => {
-        api.delCard(this._id)
+        this._api.delCard(this._id)
           .then((card) => {
             this._element.remove();
           })

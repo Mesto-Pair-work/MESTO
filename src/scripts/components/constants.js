@@ -35,3 +35,11 @@ export const popupBigPhotoImg = popupBigPhoto.querySelector(".popup__big-img");
 export const popupBigPhotoTitle = popupBigPhoto.querySelector(
   ".popup__title_type_big-photo"
 );
+
+export const settings = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-15',
+  headers: {
+    authorization: 'd3efd322-579e-46e2-8334-d27c812c6b90',
+    'Content-Type': 'application/json'
+  }
+}; 
