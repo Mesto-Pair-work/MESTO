@@ -42,4 +42,12 @@ export const settings = {
     authorization: 'd3efd322-579e-46e2-8334-d27c812c6b90',
     'Content-Type': 'application/json'
   }
-}; 
+};
+
+export const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__inp",
+  submitButtonSelector: ".popup__save-btn",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__inp-error_active",
+};
