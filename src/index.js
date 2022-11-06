@@ -24,7 +24,7 @@ import {
   popupInpFieldAvatar,
   profileFullNname,
   profileOccupation,
-  placesItem,
+  placesItem, validationConfig,
 } from "./scripts/components/constants.js";
 
 const api = new Api(settings);
@@ -150,10 +150,10 @@ Promise.all([api.getUser(), api.getInitialCards()])
   });
 
 //Валидация форм
-enableValidation({
-  formSelector: ".popup__form",
-  inputSelector: ".popup__inp",
-  submitButtonSelector: ".popup__save-btn",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__inp-error_active",
-});
+const avatarValidForm = new FormValidator(validationConfig, formAvatar)
+const profileValidForm = new FormValidator(validationConfig, formProfile)
+const newPlaceValidForm = new FormValidator(validationConfig, formNewPlace)
+
+newPlaceValidForm.enableValidation()
+profileValidForm.enableValidation()
+avatarValidForm.enableValidation()
