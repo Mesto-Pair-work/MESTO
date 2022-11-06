@@ -1,5 +1,5 @@
 import "./pages/index.css";
-import { enableValidation } from "./scripts/components/validate.js";
+import FormValidator from "./scripts/components/FormValidate";
 import { openPopup, closePopup } from "./scripts/components/modal.js";
 import { Api } from "./scripts/components/api.js";
 import { Section } from "./scripts/components/section.js";
