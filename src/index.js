@@ -1,96 +1,75 @@
 import "./pages/index.css";
-import FormValidator from "./scripts/components/FormValidate";
-import { openPopup, closePopup } from "./scripts/components/modal.js";
-import { Api } from "./scripts/components/api.js";
-import { Section } from "./scripts/components/section.js";
-import { Card } from "./scripts/components/card.js";
-import { UserInfo } from "./scripts/components/userinfo.js";
-import {
-  settings,
-  popups,
-  profileEditBtn,
-  profileEditAvatar,
-  profileButtonPlus,
-  popupProfile,
-  popupNewPlace,
-  popupAvatar,
-  formAvatar,
-  formProfile,
-  formNewPlace,
-  popupFullnameInp,
-  popupOccupationInp,
-  popupNewPlaceLinkInp,
-  popupNewPlaceNameInp,
-  popupInpFieldAvatar,
-  profileFullNname,
-  profileOccupation,
-  placesItem, validationConfig,
-} from "./scripts/components/constants.js";
+import { FormValidator } from "./scripts/components/FormValidate.js";
+import { Api } from "./scripts/components/Api.js";
+import { Section } from "./scripts/components/Section.js";
+import { Card } from "./scripts/components/Card.js";
+import { UserInfo } from "./scripts/components/Userinfo.js";
+import * as constants from "./scripts/components/constants.js";
+import { PopupWithForm } from "./scripts/components/PopupWithForm.js";
+import { PopupWithImage } from "./scripts/components/PopupWithImage";
 
-const api = new Api(settings);
-const userInfo = new UserInfo(
-  ".profile__full-name",
-  ".profile__occupation",
-  ".profile__photo",
-  api
-);
+const api = new Api(constants.settings);
+const userInfo = new UserInfo(".profile__full-name", ".profile__occupation", ".profile__photo", api);
 
-//------------------------Events ---------------------------------//
+//Валидация форм
+new FormValidator(constants.dataForm, constants.formNewPlace).enableValidation();
+new FormValidator(constants.dataForm, constants.formProfile).enableValidation();
+new FormValidator(constants.dataForm, constants.formAvatar).enableValidation();
+
 
 //Клик по кнопке редактирования профиля
-profileEditBtn.addEventListener("click", () => {
-  openPopup(popupProfile);
+constants.profileEditBtn.addEventListener("click", () => {
+  popupProfileForm.open();
   userInfo.getUserInfo().then((user) => {
-    popupFullnameInp.value = user.about;
-    popupOccupationInp.value = user.name;
+    constants.popupFullnameInp.value = user.about;
+    constants.popupOccupationInp.value = user.name;
   });
 });
-
-//Submit формы профиля
-formProfile.addEventListener("submit", (evt) => {
+//Клик по кнопке добавления карточки
+constants.profileButtonPlus.addEventListener("click", () => {
+  popupNewPlaceForm.open();
+});
+//Клик по аватару
+constants.profileEditAvatar.addEventListener("click", () => {
+  popupAvatarForm.open();
+});
+//Функция обработчик сабмита для формы аватара
+const handleSubmitAvatar = function(evt, {avatarurl}) {
   evt.submitter.textContent = "Сохранение...";
-  evt.preventDefault();
+  userInfo.setAvatarInfo(avatarurl).finally(() => {
+    evt.submitter.textContent = "Обновить";
+    popupAvatarForm.close();
+  });
+}
+//Функция обработчик сабмита для формы профайла
+const handleSubmitProfile = function (evt, { fullname, occupation }) {
+  evt.submitter.textContent = "Сохранение...";
   userInfo
     .setUserInfo({
-      name: popupFullnameInp.value,
-      about: popupOccupationInp.value,
+      name: fullname,
+      about: occupation,
     })
     .finally(() => {
-      evt.target.reset();
+      popupProfileForm.close();
       evt.submitter.textContent = "Сохранить";
-      closePopup(popupProfile);
     });
-});
-
-//Клик по кнопке добавления карточки
-profileButtonPlus.addEventListener("click", () => {
-  openPopup(popupNewPlace);
-});
-
-//Submit формы добавления карточки
-formNewPlace.addEventListener("submit", (evt) => {
+};
+//Функция обработчик сабмита для карточки
+const handleSubmitNewPlace = function(evt, {newplacename, newplacelink}) {
   evt.submitter.textContent = "Сохранение...";
-  evt.preventDefault();
   const card = {
-    name: popupNewPlaceNameInp.value,
-    link: popupNewPlaceLinkInp.value,
+    name: newplacename,
+    link: newplacelink,
   };
   api
     .setCard(card)
     .then((card) => {
-      const cardList = new Section(
-        card.owner._id,
-        [card],
-        (card) => {
-          const cardElement = new Card("#templateCard", card, api).generate();
+      const cardList = new Section(card.owner._id, [card], (card) => {
+          const cardElement = new Card("#templateCard", card, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
           cardList.setItem(cardElement);
-        },
-        placesItem
-      );
+        }, constants.placesItem);
       cardList.renderItems();
-
-      closePopup(popupNewPlace);
-      evt.target.reset();
+      popupNewPlaceForm.close();
     })
     .finally((card) => {
       evt.submitter.textContent = "Создать";
@@ -98,36 +77,17 @@ formNewPlace.addEventListener("submit", (evt) => {
     .catch((err) => {
       console.log(err);
     });
-});
+}
 
-//Клик по аватару
-profileEditAvatar.addEventListener("click", () => {
-  openPopup(popupAvatar);
-});
+const popupProfileForm = new PopupWithForm(".popup_type_profile", handleSubmitProfile);
+const popupAvatarForm = new PopupWithForm(".popup_type_avatar", handleSubmitAvatar);
+const popupNewPlaceForm = new PopupWithForm(".popup_type_new-place", handleSubmitNewPlace);
+const popupBigPhoto = new PopupWithImage(".popup_type_big-photo");
+popupNewPlaceForm.setEventListeners();
+popupProfileForm.setEventListeners();
+popupAvatarForm.setEventListeners();
+popupBigPhoto.setEventListeners();
 
-//Submit формы добавления нового аватара
-formAvatar.addEventListener("submit", (evt) => {
-  evt.submitter.textContent = "Сохранение...";
-  evt.preventDefault();
-  userInfo.setAvatarInfo(popupInpFieldAvatar.value)
-  .finally(() => {
-    evt.submitter.textContent = "Обновить";
-    closePopup(popupAvatar);
-    evt.target.reset();
-  })
-});
-
-//Перебираем все попапы и навешиваем на них события ( клик вне попапа и клик по крестику)
-popups.forEach(function (popup) {
-  popup.addEventListener("mousedown", (evt) => {
-    if (evt.target === popup) closePopup(popup);
-  });
-  const crossButton = popup.querySelector(".popup__close-btn");
-  crossButton.addEventListener("click", () => {
-    closePopup(popup);
-  });
-});
-//-----------------------------------------------------------------//
 
 //Достаем юзера и все карточки с сервера, вносим всё в разметку
 Promise.all([api.getUser(), api.getInitialCards()])
@@ -138,22 +98,13 @@ Promise.all([api.getUser(), api.getInitialCards()])
       userId,
       cards,
       (card) => {
-        const cardElement = new Card("#templateCard", card, api).generate();
+        const cardElement = new Card("#templateCard", card, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
         cardList.setItem(cardElement);
       },
-      placesItem
+      constants.placesItem
     );
     cardList.renderItems();
   })
   .catch((err) => {
     console.log(`Ошибка ${err}`);
   });
-
-//Валидация форм
-const avatarValidForm = new FormValidator(validationConfig, formAvatar)
-const profileValidForm = new FormValidator(validationConfig, formProfile)
-const newPlaceValidForm = new FormValidator(validationConfig, formNewPlace)
-
-newPlaceValidForm.enableValidation()
-profileValidForm.enableValidation()
-avatarValidForm.enableValidation()
