@@ -1,33 +1,12 @@
 import "./pages/index.css";
-//import { openPopup, closePopup } from "./scripts/components/modal.js";
-import FormValidator from "./scripts/components/FormValidate";
-import {Api} from "./scripts/components/api.js";
-import {Section} from "./scripts/components/section.js";
-import {Card} from "./scripts/components/card.js";
-import {UserInfo} from "./scripts/components/userinfo.js";
-import {
-    settings,
-    profileEditBtn,
-    profileEditAvatar,
-    profileButtonPlus,
-    popupNewPlace,
-    formAvatar,
-    formProfile,
-    formNewPlace,
-    popupFullnameInp,
-    popupOccupationInp,
-    popupNewPlaceLinkInp,
-    popupNewPlaceNameInp,
-    popupInpFieldAvatar,
-    //profileFullNname,
-    //profileOccupation,
-    placesItem, validationConfig,
-} from "./scripts/components/constants.js";
+import {FormValidator} from "./scripts/components/FormValidate";
+import { Api } from "./scripts/components/api.js";
+import { Section } from "./scripts/components/section.js";
+import { Card } from "./scripts/components/card.js";
+import { UserInfo } from "./scripts/components/userinfo.js";
+import * as constants from "./scripts/components/constants.js";
 
-
-import PopupWithForm from "./scripts/components/PopupWithForm";
-
-const api = new Api(settings);
+const api = new Api(constants.settings);
 const userInfo = new UserInfo(
     ".profile__full-name",
     ".profile__occupation",
@@ -35,6 +14,9 @@ const userInfo = new UserInfo(
     api
 );
 
+new FormValidator(constants.validationConfig, constants.formNewPlace).enableValidation();
+new FormValidator(constants.validationConfig, constants.formProfile).enableValidation();
+new FormValidator(constants.validationConfig, constants.formAvatar).enableValidation();
 //------------------------Events ---------------------------------//
 
 //Клик по кнопке редактирования профиля
@@ -54,26 +36,26 @@ const profileEditPopup = new PopupWithForm('.popup_type_profile', {
     }
 })
 profileEditPopup.setEventListeners();
-profileEditBtn.addEventListener("click", () => {
+constants.profileEditBtn.addEventListener("click", () => {
     userInfo.getUserInfo().then((user) => {
         profileEditPopup.open();
-        popupFullnameInp.value = user.about;
-        popupOccupationInp.value = user.name;
+        constants.popupFullnameInp.value = user.about;
+        constants.popupOccupationInp.value = user.name;
     });
 });
 
 //Клик по кнопке добавления карточки
-profileButtonPlus.addEventListener("click", () => {
-    popupNewPlace.open();
+constants.profileButtonPlus.addEventListener("click", () => {
+    constants.popupNewPlace.open();
 });
 
 //Submit формы добавления карточки
-formNewPlace.addEventListener("submit", (evt) => {
+constants.formNewPlace.addEventListener("submit", (evt) => {
     evt.submitter.textContent = "Сохранение...";
     evt.preventDefault();
     const card = {
-        name: popupNewPlaceNameInp.value,
-        link: popupNewPlaceLinkInp.value,
+        name: constants.popupNewPlaceNameInp.value,
+        link: constants.popupNewPlaceLinkInp.value,
     };
     api
         .setCard(card)
@@ -85,11 +67,11 @@ formNewPlace.addEventListener("submit", (evt) => {
                     const cardElement = new Card("#templateCard", card, api).generate();
                     cardList.setItem(cardElement);
                 },
-                placesItem
+                constants.placesItem
             );
             cardList.renderItems();
 
-            closePopup(popupNewPlace);
+            constants.popupNewPlace.close();
             evt.target.reset();
         })
         .finally((card) => {
@@ -103,7 +85,7 @@ formNewPlace.addEventListener("submit", (evt) => {
 const editAvatar = new PopupWithForm(".popup_type_avatar", {
     submittingForm: (data) => {
         editAvatar.renderDownload(true);
-        userInfo.setAvatarInfo(popupInpFieldAvatar.value)
+        userInfo.setAvatarInfo(constants.popupInpFieldAvatar.value)
             .then(() => {
                 editAvatar.close();
             })
@@ -118,7 +100,7 @@ const editAvatar = new PopupWithForm(".popup_type_avatar", {
 
 editAvatar.setEventListeners();
 
-profileEditAvatar.addEventListener('click', () => {
+constants.profileEditAvatar.addEventListener('click', () => {
     editAvatar.open();
 });
 
@@ -136,19 +118,10 @@ Promise.all([api.getUser(), api.getInitialCards()])
                 const cardElement = new Card("#templateCard", card, api).generate();
                 cardList.setItem(cardElement);
             },
-            placesItem
+            constants.placesItem
         );
         cardList.renderItems();
     })
     .catch((err) => {
         console.log(`Ошибка ${err}`);
     });
-
-//Валидация форм
-const avatarValidForm = new FormValidator(validationConfig, formAvatar)
-const profileValidForm = new FormValidator(validationConfig, formProfile)
-const newPlaceValidForm = new FormValidator(validationConfig, formNewPlace)
-
-newPlaceValidForm.enableValidation()
-profileValidForm.enableValidation()
-avatarValidForm.enableValidation()
