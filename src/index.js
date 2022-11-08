@@ -1,78 +1,76 @@
 import "./pages/index.css";
-import {FormValidator} from "./scripts/components/FormValidate";
-import { Api } from "./scripts/components/api.js";
-import { Section } from "./scripts/components/section.js";
-import { Card } from "./scripts/components/card.js";
-import { UserInfo } from "./scripts/components/userinfo.js";
+import { FormValidator } from "./scripts/components/FormValidate.js";
+import { Api } from "./scripts/components/Api.js";
+import { Section } from "./scripts/components/Section.js";
+import { Card } from "./scripts/components/Card.js";
+import { UserInfo } from "./scripts/components/Userinfo.js";
 import * as constants from "./scripts/components/constants.js";
+import { PopupWithForm } from "./scripts/components/PopupWithForm.js";
+import { PopupWithImage } from "./scripts/components/PopupWithImage";
 
 const api = new Api(constants.settings);
-const userInfo = new UserInfo(
-    ".profile__full-name",
-    ".profile__occupation",
-    ".profile__photo",
-    api
-);
+const userInfo = new UserInfo(".profile__full-name", ".profile__occupation", ".profile__photo", api);
 
+//Валидация форм
 new FormValidator(constants.validationConfig, constants.formNewPlace).enableValidation();
 new FormValidator(constants.validationConfig, constants.formProfile).enableValidation();
 new FormValidator(constants.validationConfig, constants.formAvatar).enableValidation();
-//------------------------Events ---------------------------------//
+
 
 //Клик по кнопке редактирования профиля
-const profileEditPopup = new PopupWithForm('.popup_type_profile', {
-    submittingForm: (data) => {
-        profileEditPopup.renderDownload(true);
-        userInfo.setUserInfo({name: data['fullname'], about: data['occupation']})
-            .then(() => {
-                profileEditPopup.close();
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-            .finally(() => {
-                profileEditPopup.renderDownload(false);
-            })
-    }
-})
-profileEditPopup.setEventListeners();
 constants.profileEditBtn.addEventListener("click", () => {
+    popupProfileForm.open();
     userInfo.getUserInfo().then((user) => {
-        profileEditPopup.open();
         constants.popupFullnameInp.value = user.about;
         constants.popupOccupationInp.value = user.name;
     });
 });
-
 //Клик по кнопке добавления карточки
 constants.profileButtonPlus.addEventListener("click", () => {
-    constants.popupNewPlace.open();
+    popupNewPlaceForm.open();
+});
+//Клик по аватару
+constants.profileEditAvatar.addEventListener("click", () => {
+    popupAvatarForm.open();
 });
 
-//Submit формы добавления карточки
-constants.formNewPlace.addEventListener("submit", (evt) => {
+//Функция обработчик сабмита для формы аватара
+const handleSubmitAvatar = function(evt, {avatarurl}) {
     evt.submitter.textContent = "Сохранение...";
-    evt.preventDefault();
+    userInfo.setAvatarInfo(avatarurl).finally(() => {
+        evt.submitter.textContent = "Обновить";
+        popupAvatarForm.close();
+    });
+}
+//Функция обработчик сабмита для формы профайла
+const handleSubmitProfile = function (evt, { fullname, occupation }) {
+    evt.submitter.textContent = "Сохранение...";
+    userInfo
+        .setUserInfo({
+            name: fullname,
+            about: occupation,
+        })
+        .finally(() => {
+            popupProfileForm.close();
+            evt.submitter.textContent = "Сохранить";
+        });
+};
+//Функция обработчик сабмита для карточки
+const handleSubmitNewPlace = function(evt, {newplacename, newplacelink}) {
+    evt.submitter.textContent = "Сохранение...";
     const card = {
-        name: constants.popupNewPlaceNameInp.value,
-        link: constants.popupNewPlaceLinkInp.value,
+        name: newplacename,
+        link: newplacelink,
     };
     api
         .setCard(card)
         .then((card) => {
-            const cardList = new Section(
-                card.owner._id,
-                [card],
-                (card) => {
-                    const cardElement = new Card("#templateCard", card, api).generate();
-                    cardList.setItem(cardElement);
-                },
-                constants.placesItem
-            );
+            const cardList = new Section(card.owner._id, [card], (card) => {
+                const cardElement = new Card("#templateCard", card, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
+                cardList.setItem(cardElement);
+            }, constants.placesItem);
             cardList.renderItems();
-
-            constants.popupNewPlace.close();
-            evt.target.reset();
+            popupNewPlaceForm.close();
         })
         .finally((card) => {
             evt.submitter.textContent = "Создать";
@@ -80,31 +78,17 @@ constants.formNewPlace.addEventListener("submit", (evt) => {
         .catch((err) => {
             console.log(err);
         });
-});
+}
 
-const editAvatar = new PopupWithForm(".popup_type_avatar", {
-    submittingForm: (data) => {
-        editAvatar.renderDownload(true);
-        userInfo.setAvatarInfo(constants.popupInpFieldAvatar.value)
-            .then(() => {
-                editAvatar.close();
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-            .finally(() => {
-                editAvatar.renderDownload(false);
-            })
-    }
-});
+const popupProfileForm = new PopupWithForm(".popup_type_profile", handleSubmitProfile);
+const popupAvatarForm = new PopupWithForm(".popup_type_avatar", handleSubmitAvatar);
+const popupNewPlaceForm = new PopupWithForm(".popup_type_new-place", handleSubmitNewPlace);
+const popupBigPhoto = new PopupWithImage(".popup_type_big-photo");
+popupNewPlaceForm.setEventListeners();
+popupProfileForm.setEventListeners();
+popupAvatarForm.setEventListeners();
+popupBigPhoto.setEventListeners();
 
-editAvatar.setEventListeners();
-
-constants.profileEditAvatar.addEventListener('click', () => {
-    editAvatar.open();
-});
-
-//-----------------------------------------------------------------//
 
 //Достаем юзера и все карточки с сервера, вносим всё в разметку
 Promise.all([api.getUser(), api.getInitialCards()])
@@ -115,7 +99,7 @@ Promise.all([api.getUser(), api.getInitialCards()])
             userId,
             cards,
             (card) => {
-                const cardElement = new Card("#templateCard", card, api).generate();
+                const cardElement = new Card("#templateCard", card, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
                 cardList.setItem(cardElement);
             },
             constants.placesItem
