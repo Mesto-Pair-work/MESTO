@@ -40,10 +40,3 @@ export const settings = {
     "Content-Type": "application/json",
   },
 };
-
-export const dataForm = {
-  inputSelector: ".popup__inp",
-  submitButtonSelector: ".popup__save-btn",
-  inputErrorClass: "popup__input_type_error",
-  errorClass: "popup__inp-error_active",
-};
