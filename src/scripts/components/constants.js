@@ -51,11 +51,3 @@ export const validationConfig = {
     inputErrorClass: "popup__input_type_error",
     errorClass: "popup__inp-error_active",
 };
-
-// export const popupFormConfig = {
-//     popupOpenSelector: "popup_opened",
-//     formSelector: ".popup__form",
-//     inputSelector: ".popup__inp",
-//     submitButtonSelector: ".popup__save-btn",
-//     popupCloseBtn: ".popup__close-btn",
-// }

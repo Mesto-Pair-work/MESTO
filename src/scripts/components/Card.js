@@ -1,10 +1,8 @@
 "use strict";
-import {popupBigPhoto, popupBigPhotoImg, popupBigPhotoTitle} from "./constants.js";
-import { openPopup } from "./modal.js";
 
 //Класс принимает в конструктор данные карты(Card) и селектор её template-элемента (selector);
 export class Card {
-  constructor(selector, card, api) {
+  constructor(selector, card, api, handleCardClick) {
     this._selector = selector;
     this._link = card.link;
     this._title = card.name;
@@ -13,6 +11,7 @@ export class Card {
     this._id = card._id;
     this._owner = card.owner;
     this._api = api;
+    this._handleCardClick = handleCardClick;
   }
   
 
@@ -71,16 +70,9 @@ export class Card {
     }
   }
 
-  _handleOpenBigPhoto() {
-    popupBigPhotoImg.src = this._link;
-    popupBigPhotoImg.alt = this._title;
-    popupBigPhotoTitle.textContent = this._title;
-    openPopup(popupBigPhoto); 
-  }
-
   _setEventListeners() {
     this._placesBoxPhoto.addEventListener("click", () => {
-      this._handleOpenBigPhoto();
+      this._handleCardClick(this._link, this._title);
     });
 
     this._boxLike.addEventListener("click", () => {

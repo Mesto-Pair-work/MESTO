@@ -16,8 +16,8 @@ export class UserInfo {
     return this._api
       .editUser(user)
       .then((user) => {
-        this._aboutElement.textContent = user.name;
-        this._nameElement.textContent = user.about;
+        this._aboutElement.textContent = user.about;
+        this._nameElement.textContent = user.name;
         if (ava) {
           this.setAvatarInfo(user.avatar);
         }
