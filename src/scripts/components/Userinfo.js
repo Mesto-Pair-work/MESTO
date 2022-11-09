@@ -1,40 +1,23 @@
 export class UserInfo {
-  constructor(fullNameSelector, occupationSelector, avatarSelector, api) {
+  constructor(fullNameSelector, occupationSelector, avatarSelector) {
     this._aboutElement = document.querySelector(occupationSelector);
     this._nameElement = document.querySelector(fullNameSelector);
     this._avatarElement = document.querySelector(avatarSelector);
-    this._api = api;
   }
 
   getUserInfo() {
-    return this._api.getUser().catch((err) => {
-      console.log(err);
-    });
+    return {
+      about: this._aboutElement.textContent,
+      name: this._nameElement.textContent,
+      avatar: this._avatarElement.src,
+    };
   }
 
   setUserInfo(user, ava = false) {
-    return this._api
-      .editUser(user)
-      .then((user) => {
-        this._aboutElement.textContent = user.about;
-        this._nameElement.textContent = user.name;
-        if (ava) {
-          this.setAvatarInfo(user.avatar);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-  setAvatarInfo(url) {
-    return this._api
-      .editAvatar(url)
-      .then((user) => {
-        this._avatarElement.src = user.avatar;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this._aboutElement.textContent = user.about;
+    this._nameElement.textContent = user.name;
+    if (ava) {
+      this._avatarElement.src = user.avatar;
+    }
   }
 }
