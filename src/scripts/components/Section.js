@@ -1,18 +1,16 @@
 export class Section {
-    constructor(userId, cards, renderer, containerSelector) {
-      this._renderedItems = cards;
+    constructor(renderer, containerSelector) {
       this._renderer = renderer;
       this._container = containerSelector;
-      this._renderedUser = userId;
     }
   
     setItem(element) {
       this._container.prepend(element);
     }
   
-    renderItems() {
-      this._renderedItems.forEach(item => {
-        item.userId = this._renderedUser;
+    renderItems(items, userId) {
+      items.forEach(item => {
+        item.userId = userId;
         this._renderer(item);
       });
     }

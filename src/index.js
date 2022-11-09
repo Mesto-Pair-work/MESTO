@@ -9,7 +9,7 @@ import { PopupWithForm } from "./scripts/components/PopupWithForm.js";
 import { PopupWithImage } from "./scripts/components/PopupWithImage";
 
 const api = new Api(constants.settings);
-const userInfo = new UserInfo(".profile__full-name", ".profile__occupation", ".profile__photo", api);
+const userInfo = new UserInfo(".profile__full-name", ".profile__occupation", ".profile__photo");
 
 //Валидация форм
 new FormValidator(constants.validationConfig, constants.formNewPlace).enableValidation();
@@ -17,14 +17,28 @@ new FormValidator(constants.validationConfig, constants.formProfile).enableValid
 new FormValidator(constants.validationConfig, constants.formAvatar).enableValidation();
 
 
+const createCard = function(item) {
+    return new Card("#templateCard", item, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
+}
+
+const cardList = new Section(
+    (item) => {
+        const cardElement = createCard(item);
+        cardList.setItem(cardElement);
+    },
+    constants.placesItem
+);
+
+
 //Клик по кнопке редактирования профиля
 constants.profileEditBtn.addEventListener("click", () => {
+    const user = userInfo.getUserInfo();
     popupProfileForm.open();
-    userInfo.getUserInfo().then((user) => {
-        constants.popupFullnameInp.value = user.about;
-        constants.popupOccupationInp.value = user.name;
-    });
+    constants.popupFullnameInp.value = user.name;
+    constants.popupOccupationInp.value = user.about;
+    
 });
+
 //Клик по кнопке добавления карточки
 constants.profileButtonPlus.addEventListener("click", () => {
     popupNewPlaceForm.open();
@@ -37,24 +51,39 @@ constants.profileEditAvatar.addEventListener("click", () => {
 //Функция обработчик сабмита для формы аватара
 const handleSubmitAvatar = function(evt, {avatarurl}) {
     evt.submitter.textContent = "Сохранение...";
-    userInfo.setAvatarInfo(avatarurl).finally(() => {
-        evt.submitter.textContent = "Обновить";
+    api.editAvatar(avatarurl)
+    .then((user) => {
+        userInfo.setUserInfo(user, true); 
         popupAvatarForm.close();
+    })
+    .finally((card) => {
+      evt.submitter.textContent = "Обновить";
+    })
+    .catch((err) => {
+      console.log(err);
     });
 }
+
 //Функция обработчик сабмита для формы профайла
 const handleSubmitProfile = function (evt, { fullname, occupation }) {
     evt.submitter.textContent = "Сохранение...";
-    userInfo
-        .setUserInfo({
-            name: fullname,
-            about: occupation,
+    api.editUser({
+        name: fullname,
+        about: occupation,
+      })
+        .then((user) => {
+          userInfo.setUserInfo(user);
+          popupProfileForm.close();
         })
-        .finally(() => {
-            popupProfileForm.close();
-            evt.submitter.textContent = "Сохранить";
-        });
+        .finally((user) => {
+          evt.submitter.textContent = "Сохранить";
+        })
+        .catch((err) => {
+          console.log(err);
+        });   
 };
+
+
 //Функция обработчик сабмита для карточки
 const handleSubmitNewPlace = function(evt, {newplacename, newplacelink}) {
     evt.submitter.textContent = "Сохранение...";
@@ -62,14 +91,10 @@ const handleSubmitNewPlace = function(evt, {newplacename, newplacelink}) {
         name: newplacename,
         link: newplacelink,
     };
-    api
-        .setCard(card)
+    api.setCard(card)
         .then((card) => {
-            const cardList = new Section(card.owner._id, [card], (card) => {
-                const cardElement = new Card("#templateCard", card, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
-                cardList.setItem(cardElement);
-            }, constants.placesItem);
-            cardList.renderItems();
+            const cardElement = createCard(card);
+            cardList.setItem(cardElement);
             popupNewPlaceForm.close();
         })
         .finally((card) => {
@@ -90,22 +115,13 @@ popupAvatarForm.setEventListeners();
 popupBigPhoto.setEventListeners();
 
 
+
 //Достаем юзера и все карточки с сервера, вносим всё в разметку
 Promise.all([api.getUser(), api.getInitialCards()])
     .then(([user, cards]) => {
-        userInfo.setUserInfo(user, true);
-        const userId = user._id;
-        const cardList = new Section(
-            userId,
-            cards,
-            (card) => {
-                const cardElement = new Card("#templateCard", card, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
-                cardList.setItem(cardElement);
-            },
-            constants.placesItem
-        );
-        cardList.renderItems();
+        userInfo.setUserInfo(user, true);     
+        cardList.renderItems(cards, user._id);
     })
     .catch((err) => {
-        console.log(`Ошибка ${err}`);
+        console.log(err);
     });
