@@ -16,18 +16,18 @@ new FormValidator(constants.validationConfig, constants.formNewPlace).enableVali
 new FormValidator(constants.validationConfig, constants.formProfile).enableValidation();
 new FormValidator(constants.validationConfig, constants.formAvatar).enableValidation();
 
+
+const createCard = function(item) {
+    return new Card("#templateCard", item, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
+}
+
 const cardList = new Section(
     (item) => {
-        const cardElement = new Card("#templateCard", item, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
+        const cardElement = createCard(item);
         cardList.setItem(cardElement);
     },
     constants.placesItem
 );
-
-const createCard = function(card) {
-    const newCard = new Card("#templateCard", card, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
-    constants.placesItem.prepend(newCard);
-}
 
 
 //Клик по кнопке редактирования профиля
@@ -93,7 +93,8 @@ const handleSubmitNewPlace = function(evt, {newplacename, newplacelink}) {
     };
     api.setCard(card)
         .then((card) => {
-            createCard(card);
+            const cardElement = createCard(card);
+            cardList.setItem(cardElement);
             popupNewPlaceForm.close();
         })
         .finally((card) => {
