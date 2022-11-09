@@ -8,6 +8,7 @@ export class PopupWithImage extends Popup {
     open(link, title) {
         super.open(this._popup);
         this._popup.querySelector(".popup__big-img").src = link;
+        this._popup.querySelector(".popup__big-img").alt = title;
         this._popup.querySelector(".popup__title_type_big-photo").textContent =
             title;
     }

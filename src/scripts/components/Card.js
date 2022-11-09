@@ -1,5 +1,3 @@
-"use strict";
-
 //Класс принимает в конструктор данные карты(Card) и селектор её template-элемента (selector);
 export class Card {
   constructor(selector, card, api, handleCardClick) {
