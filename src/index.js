@@ -4,7 +4,7 @@ import { Api } from "./scripts/components/Api.js";
 import { Section } from "./scripts/components/Section.js";
 import { Card } from "./scripts/components/Card.js";
 import { UserInfo } from "./scripts/components/Userinfo.js";
-import * as constants from "./scripts/components/constants.js";
+import * as constants from "./scripts/utils/constants.js";
 import { PopupWithForm } from "./scripts/components/PopupWithForm.js";
 import { PopupWithImage } from "./scripts/components/PopupWithImage";
 
@@ -15,7 +15,6 @@ const userInfo = new UserInfo(".profile__full-name", ".profile__occupation", ".p
 new FormValidator(constants.validationConfig, constants.formNewPlace).enableValidation();
 new FormValidator(constants.validationConfig, constants.formProfile).enableValidation();
 new FormValidator(constants.validationConfig, constants.formAvatar).enableValidation();
-
 
 const createCard = function(item) {
     return new Card("#templateCard", item, api, popupBigPhoto.open.bind(popupBigPhoto)).generate();
@@ -28,7 +27,6 @@ const cardList = new Section(
     },
     constants.placesItem
 );
-
 
 //Клик по кнопке редактирования профиля
 constants.profileEditBtn.addEventListener("click", () => {
@@ -83,7 +81,6 @@ const handleSubmitProfile = function (evt, { fullname, occupation }) {
         });   
 };
 
-
 //Функция обработчик сабмита для карточки
 const handleSubmitNewPlace = function(evt, {newplacename, newplacelink}) {
     evt.submitter.textContent = "Сохранение...";
@@ -113,8 +110,6 @@ popupNewPlaceForm.setEventListeners();
 popupProfileForm.setEventListeners();
 popupAvatarForm.setEventListeners();
 popupBigPhoto.setEventListeners();
-
-
 
 //Достаем юзера и все карточки с сервера, вносим всё в разметку
 Promise.all([api.getUser(), api.getInitialCards()])

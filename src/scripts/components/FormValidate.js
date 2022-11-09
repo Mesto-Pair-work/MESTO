@@ -71,6 +71,7 @@ export class FormValidator {
         });
         this._toggleButtonState(inputList, buttonElement);
         inputList.forEach((inputElement) => {
+            this._hideInputError(inputElement);
             inputElement.addEventListener("input", () => {
                 this._isValid(inputElement);
                 this._toggleButtonState(inputList, buttonElement);
