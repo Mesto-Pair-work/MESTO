@@ -7,9 +7,9 @@ export class UserInfo {
 
   getUserInfo() {
     return {
-      about: this._aboutElement.textContent,
-      name: this._nameElement.textContent,
-      avatar: this._avatarElement.src,
+      occupation: this._aboutElement.textContent,
+      fullname: this._nameElement.textContent,
+      avatar: this._avatarElement.src
     };
   }
 
