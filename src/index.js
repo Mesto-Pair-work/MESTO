@@ -53,7 +53,7 @@ const handleSubmitAvatar = function(evt, {avatarurl}) {
     evt.submitter.textContent = "Сохранение...";
     api.editAvatar(avatarurl)
     .then((user) => {
-        userInfo.setUserInfo(user, true); 
+        userInfo.setUserInfo(user); 
         popupAvatarForm.close();
     })
     .finally((card) => {
@@ -119,7 +119,7 @@ popupBigPhoto.setEventListeners();
 //Достаем юзера и все карточки с сервера, вносим всё в разметку
 Promise.all([api.getUser(), api.getInitialCards()])
     .then(([user, cards]) => {
-        userInfo.setUserInfo(user, true);     
+        userInfo.setUserInfo(user);     
         cardList.renderItems(cards, user._id);
     })
     .catch((err) => {

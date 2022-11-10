@@ -13,11 +13,9 @@ export class UserInfo {
     };
   }
 
-  setUserInfo(user, ava = false) {
-    this._aboutElement.textContent = user.about;
-    this._nameElement.textContent = user.name;
-    if (ava) {
-      this._avatarElement.src = user.avatar;
-    }
+  setUserInfo({ name, about, avatar}) {
+    this._aboutElement.textContent = about;
+    this._nameElement.textContent = name;
+    this._avatarElement.src = avatar;
   }
 }
