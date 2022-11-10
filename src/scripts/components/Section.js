@@ -4,8 +4,12 @@ export class Section {
       this._container = container;
     }
   
-    setItem(element) {
-      this._container.prepend(element);
+    setItem(element, after = false) {
+      if(after) {
+        this._container.prepend(element);
+      } else {
+        this._container.append(element);
+      }
     }
   
     renderItems(items, userId) {

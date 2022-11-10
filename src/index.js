@@ -89,7 +89,7 @@ const handleSubmitNewPlace = function ({ newplacename, newplacelink }) {
     .then((card) => {
       card.userId = card.owner._id;
       const cardElement = createCard(card);
-      cardList.setItem(cardElement);
+      cardList.setItem(cardElement, true);
     });
 };
 
